@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "lab-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PORT=4000 npm run dev"],
       "port": 5173
     }
   ]
