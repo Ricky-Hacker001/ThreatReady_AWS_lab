@@ -3,6 +3,7 @@ import { api, ApiError, hasToken, setToken, newRequestId, onConnection, store, f
 import { Ctx, Modal, Badge, Tabs, Note, Field, StatusDot, useLab as useLabCtx } from './ui';
 import { IamConsole, S3Console, Ec2Console, VpcConsole } from './services1';
 import { CloudTrailConsole, CloudWatchConsole, LambdaConsole, KmsConsole, SecretsConsole, OrgConsole } from './services2';
+import { ArchitectureCorner } from './architecture';
 import { Home, FindingsPage, IncidentCenter, ObjectivesPage, ReportScreen, ObjectiveList, sevTone, statusTone } from './pages';
 
 export const SERVICES = [
@@ -138,7 +139,8 @@ function Lab({ user, logout }: { user: any; logout: () => void }) {
           <div className="left-foot"><Badge tone={sevTone(status.incident.severity)}>Incident: {status.incident.severity}</Badge><small>{status.incident.id} · {status.incident.containment}</small></div>
         </nav>}
         <div className="center">
-          <main id="main" className="main" tabIndex={-1}>{screen === 'report' ? <ReportScreen onBack={() => setScreen('console')} /> : page()}</main>
+          <div className="mainwrap"><main id="main" className="main" tabIndex={-1}>{screen === 'report' ? <ReportScreen onBack={() => setScreen('console')} /> : page()}</main>
+            {screen !== 'report' && <ArchitectureCorner />}</div>
           <Dock open={dock} setOpen={setDock} />
         </div>
         {side ? <SidePanel width={sideW} setWidth={setSideW} close={() => setSide(false)} /> : <button className="sidetab" onClick={() => setSide(true)} aria-label="Open lab panel">Lab panel ‹</button>}

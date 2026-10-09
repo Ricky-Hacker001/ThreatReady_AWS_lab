@@ -12,7 +12,7 @@ export function ObjectiveList({ objectives }: { objectives: any[] }) {
     <div className="obj-row"><span className="tick" aria-hidden>{o.done ? '✓' : o.locked ? '🔒' : o.partial ? '◐' : ''}</span>
       <div className="obj-t"><span>{o.title}</span><small>{o.done && o.id === 'L4.triage' && !status.complete ? `${o.points} pts · scored when the report is submitted` : o.done ? `${o.awarded} / ${o.points} pts` : o.partial ? `Fixed — run a verification test (${o.awarded} / ${o.points} pts)` : `${o.points} pts`}{o.hints.length > 0 && ` · ${o.hints.length} hint${o.hints.length > 1 ? 's' : ''} used`}</small></div>
       {!o.locked && !o.done && <button className="btn sm" aria-expanded={open === o.id} onClick={() => setOpen(open === o.id ? null : o.id)}>Hints</button>}</div>
-    {open === o.id && !o.done && <div className="hints">{o.hints.map((h: string, i: number) => <p key={i}><b>Hint {i + 1}.</b> {h}</p>)}
+    {open === o.id && !o.done && <div className="hints">{o.hints.map((h: string, i: number) => { const lines = h.split('\n'); return <div key={i} className="hint"><span className="hint-k">{i === 0 ? 'Tip' : 'Step by step'}</span>{lines.length > 1 ? <ol>{lines.map(l => <li key={l}>{l}</li>)}</ol> : h}</div>; })}
       {o.hintsRemaining > 0 ? <button className="btn sm" disabled={busy} onClick={() => act('hint.request', { objectiveId: o.id }, { silent: true, confirm: { title: 'Reveal a hint?', body: `This reduces the points for this objective by 25% (${o.hintsRemaining} hint${o.hintsRemaining > 1 ? 's' : ''} available).`, label: 'Reveal hint' } })}>Reveal {o.hints.length ? 'next' : 'a'} hint (−25%)</button> : <span className="muted">No more hints.</span>}</div>}
   </li>)}</ul>;
 }
